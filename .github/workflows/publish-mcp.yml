@@ -1,15 +1,13 @@
 name: Publish to MCP Registry
 
 on:
+  push:
+    branches: [main]
+    paths: ['server.json']
   workflow_dispatch:
-
-# server.json now uses the domain-verified dev.jobspipe namespace, which GitHub OIDC
-# cannot publish. Publish manually: mcp-publisher login dns --domain jobspipe.dev
-# --private-key <seed>, then mcp-publisher publish.
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
   publish:
@@ -21,8 +19,10 @@ jobs:
         run: |
           curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
 
-      - name: Log in via GitHub OIDC
-        run: ./mcp-publisher login github-oidc
+      - name: Log in via DNS domain auth (dev.jobspipe namespace)
+        run: ./mcp-publisher login dns --domain jobspipe.dev --private-key "${SEED}"
+        env:
+          SEED: ${{ secrets.MCP_REGISTRY_DNS_SEED }}
 
       - name: Publish server.json
         run: ./mcp-publisher publish
