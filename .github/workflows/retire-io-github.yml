@@ -19,4 +19,4 @@ jobs:
         run: ./mcp-publisher login github-oidc
 
       - name: Mark io.github.jobspipe/mcp deleted
-        run: ./mcp-publisher status --status deleted --message "Renamed to dev.jobspipe/mcp (domain-verified namespace)" --all-versions io.github.jobspipe/mcp
+        run: echo y | ./mcp-publisher status --status deleted --message "Renamed to dev.jobspipe/mcp (domain-verified namespace)" --all-versions io.github.jobspipe/mcp
