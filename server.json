@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.jobspipe/mcp",
+  "name": "dev.jobspipe/mcp",
   "title": "JobsPipe",
   "description": "Search live job postings from 30+ ATS feeds and job boards, normalized to one schema.",
   "repository": {
