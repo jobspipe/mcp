@@ -1,5 +1,7 @@
 # JobsPipe MCP Server
 
+[![smithery badge](https://smithery.ai/badge/jobspipe/jobspipe-mcp)](https://smithery.ai/servers/jobspipe/jobspipe-mcp)
+
 The hosted [Model Context Protocol](https://modelcontextprotocol.io) server for [JobsPipe](https://jobspipe.dev): live job postings from 30+ ATS feeds and job boards, normalized into one schema, queryable by AI agents.
 
 - **Endpoint:** `https://jobspipe.dev/mcp` (remote, streamable HTTP; nothing to run locally)
