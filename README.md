@@ -7,6 +7,7 @@ The hosted [Model Context Protocol](https://modelcontextprotocol.io) server for 
 - **Endpoint:** `https://jobspipe.dev/mcp` (remote, streamable HTTP; nothing to run locally)
 - **Server card:** [`/.well-known/mcp/server-card.json`](https://jobspipe.dev/.well-known/mcp/server-card.json)
 - **Docs:** https://jobspipe.dev/docs
+- **Agent skills:** [`npx skills add jobspipe/skills`](https://skills.sh/jobspipe/skills) - the official JobsPipe skill collection (job search, stack scan, MCP setup, webhooks, agent discovery)
 
 ## Tools
 
