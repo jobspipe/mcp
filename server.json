@@ -2,14 +2,26 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "dev.jobspipe/mcp",
   "title": "JobsPipe",
-  "description": "Search live job postings from 30+ ATS feeds and job boards, normalized to one schema.",
+  "description": "Search live job postings from 30+ ATS feeds and job boards, normalized to one schema. Live results need a Bearer API key; the no-key demo at https://jobspipe.dev/mcp returns the REST call to run instead of postings.",
   "repository": {
     "url": "https://github.com/jobspipe/mcp",
     "source": "github"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "websiteUrl": "https://jobspipe.dev",
   "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.jobspipe.dev/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer jp_live_<key> - create a free key at https://jobspipe.dev/signup (dashboard Settings -> API Keys).",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    },
     {
       "type": "streamable-http",
       "url": "https://jobspipe.dev/mcp"
