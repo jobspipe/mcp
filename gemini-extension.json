@@ -1,0 +1,12 @@
+{
+  "name": "jobspipe",
+  "version": "1.0.0",
+  "description": "Search live job postings from 30+ job boards, ATS feeds and public employment services, and watch for new matches.",
+  "contextFileName": "GEMINI.md",
+  "mcpServers": {
+    "jobspipe": {
+      "httpUrl": "https://mcp.jobspipe.dev/mcp",
+      "timeout": 30000
+    }
+  }
+}

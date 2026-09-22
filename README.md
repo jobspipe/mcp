@@ -53,6 +53,12 @@ Searches draw on the connected account's plan; evaluating a signal costs no job 
 
 ## Other clients
 
+Gemini CLI (this repository is also a Gemini CLI extension):
+
+```bash
+gemini extensions install https://github.com/jobspipe/mcp
+```
+
 Claude Code:
 
 ```bash
