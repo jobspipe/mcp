@@ -1,0 +1,36 @@
+{
+  "name": "jobspipe",
+  "displayName": "JobsPipe",
+  "version": "1.0.0",
+  "minClientVersions": {
+    "cursor": "3.13.0"
+  },
+  "description": "Search live job postings from 30+ job boards, ATS feeds and public employment services, and watch for new matches.",
+  "author": {
+    "name": "JobsPipe",
+    "email": "support@jobspipe.dev"
+  },
+  "homepage": "https://docs.jobspipe.dev/ai-agents/mcp",
+  "repository": "https://github.com/jobspipe/mcp",
+  "license": "MIT",
+  "logo": "assets/logo.svg",
+  "keywords": [
+    "jobspipe",
+    "jobs",
+    "job-postings",
+    "hiring",
+    "recruiting",
+    "labor-market",
+    "salary",
+    "tech-stack",
+    "mcp"
+  ],
+  "category": "integrations",
+  "tags": [
+    "jobs",
+    "hiring",
+    "recruiting",
+    "mcp"
+  ],
+  "mcpServers": "./mcp.json"
+}

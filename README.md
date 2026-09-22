@@ -2,72 +2,75 @@
 
 [![smithery badge](https://smithery.ai/badge/jobspipe/jobspipe-mcp)](https://smithery.ai/servers/jobspipe/jobspipe-mcp)
 
-The hosted [Model Context Protocol](https://modelcontextprotocol.io) server for [JobsPipe](https://jobspipe.dev): live job postings from 30+ ATS feeds and job boards, normalized into one schema, queryable by AI agents.
+The hosted [Model Context Protocol](https://modelcontextprotocol.io) server for [JobsPipe](https://jobspipe.dev): live job postings from 30+ job boards, ATS feeds and public employment services, normalized into one schema and queryable by AI agents. Nothing to run locally.
 
-There are two servers. **Live job results come only from the authenticated one.**
+This repository is also the [Cursor Marketplace](https://cursor.com/marketplace) plugin for JobsPipe.
 
-- **Live endpoint (authenticated):** `https://mcp.jobspipe.dev/mcp` — remote, streamable HTTP; nothing to run locally. Requires a Bearer API key (free tier: 100 credits/month at [jobspipe.dev/signup](https://jobspipe.dev/signup)).
-- **Demo endpoint (no key):** `https://jobspipe.dev/mcp` — for trying the protocol out. Its `search_jobs` returns the REST call to run for your query, **not** live postings.
+- **Server:** `https://mcp.jobspipe.dev/mcp` — remote, streamable HTTP. Sign in with OAuth on first connect (the default in Cursor, Claude, ChatGPT, VS Code and Codex), or send a Bearer API key from a script.
+- **Try it without an account:** `https://jobspipe.dev/mcp` — a smaller no-key server with real postings for evaluating the protocol.
 - **Server card:** [`/.well-known/mcp/server-card.json`](https://jobspipe.dev/.well-known/mcp/server-card.json)
-- **Docs:** https://docs.jobspipe.dev
-- **Agent skills:** [`npx skills add jobspipe/skills`](https://skills.sh/jobspipe/skills) - the official JobsPipe skill collection (job search, stack scan, MCP setup, webhooks, agent discovery)
+- **Docs:** https://docs.jobspipe.dev/ai-agents/mcp
+- **Agent skills:** [`npx skills add jobspipe/skills`](https://skills.sh/jobspipe/skills)
 
-## Tools
+## Install in Cursor
 
-Live server (`mcp.jobspipe.dev/mcp`, Bearer key required):
+1. Open **Cursor Settings → Plugins**.
+2. Search for **JobsPipe**.
+3. Click **Install**, then complete the JobsPipe sign-in prompt.
 
-| Tool | What it does |
-|---|---|
-| `search_jobs` | Search live, normalized job postings by title, skill/tech, country, remote, seniority, employment type and recency. Returns the postings. |
-| `list_pricing_plans` | List JobsPipe plans with monthly USD price, request quota and features |
+Or run `/add-plugin jobspipe` in chat.
 
-Demo server (`jobspipe.dev/mcp`, no key):
-
-| Tool | What it does |
-|---|---|
-| `search_jobs` | Returns the REST call to run for your query — not live postings |
-| `list_job_sources` | List the ATS and job-board sources JobsPipe normalizes, with coverage and freshness notes |
-| `list_pricing_plans` | List JobsPipe plans with monthly USD price, request quota and features |
-| `search_upwork_jobs` | Search live Upwork postings with budget, skills and client signals |
-
-## Setup
-
-Claude Code:
-
-```bash
-claude mcp add --transport http jobspipe https://mcp.jobspipe.dev/mcp \
-  --header "Authorization: Bearer jp_live_YOUR_KEY"
-```
-
-Generic client config (Cursor, Windsurf, and others):
+Without the marketplace, add the server by hand to `mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "jobspipe": {
-      "url": "https://mcp.jobspipe.dev/mcp",
-      "headers": {
-        "Authorization": "Bearer jp_live_YOUR_KEY"
-      }
+      "type": "http",
+      "url": "https://mcp.jobspipe.dev/mcp"
     }
   }
 }
 ```
 
-Keys start with `jp_live_` and come from the dashboard (Settings -> API Keys). An `x-api-key` header also works.
+Auth is OAuth 2.0 against JobsPipe with dynamic client registration; Cursor prompts for sign-in when the plugin connects, and there is no API key to configure. A JobsPipe account is free to create at [jobspipe.dev/signup](https://jobspipe.dev/signup).
 
-### Trying it without a key
+## Tools
 
-Point any MCP client at `https://jobspipe.dev/mcp` — the discovery tools work fully, and `search_jobs` hands back the exact REST request to run instead of the postings. For sample job data in the live schema without a key, use the REST sandbox instead:
+| Tool | What it does |
+|---|---|
+| `search` | Search live postings by role, place and date; returns results to cite, each with an id, a title and a link |
+| `fetch` | Read one posting in full by the id a `search` result carried |
+| `search_jobs` | The same corpus with every filter exposed: location, salary, seniority, skills, visa stance, language, work arrangement, source and more |
+| `create_signal` | Save a search and be notified of new matches by email, Slack or webhook, instead of polling |
+| `list_signals` | List the signals saved on the connected account |
+| `get_account_info` | Show the connected account, its plan and remaining credits |
+| `detect_company_tech_stack` | Detect the technologies a company serves on its domain |
+| `list_pricing_plans` | List JobsPipe plans with monthly price, job quota and limits |
+| `search_documentation` | Search the JobsPipe API documentation for filter names, accepted values and limits |
+
+Searches draw on the connected account's plan; evaluating a signal costs no job credits.
+
+## Other clients
+
+Claude Code:
 
 ```bash
-curl -X POST https://api.jobspipe.dev/v1/sandbox/jobs/search \
-  -H "Content-Type: application/json" \
-  -d '{"job_title_or":["software engineer"],"remote":true}'
+claude mcp add --transport http jobspipe https://mcp.jobspipe.dev/mcp
 ```
 
-## Related
+Claude, ChatGPT, VS Code, Codex and any client that supports remote MCP with OAuth: add `https://mcp.jobspipe.dev/mcp` as a connector and sign in. For a script or a client without sign-in, send `Authorization: Bearer jp_live_<key>` with a key from the [dashboard](https://jobspipe.dev/dashboard).
 
-- [jobspipe-cli](https://github.com/jobspipe/jobspipe-cli): CLI and agent skill wrapping the same API
-- [jobspipe-python](https://github.com/jobspipe/jobspipe-python): official Python SDK
-- [REST API reference](https://docs.jobspipe.dev)
+The server is also listed in the official [MCP Registry](https://registry.modelcontextprotocol.io) as `dev.jobspipe/mcp` (`server.json` in this repository).
+
+## Support
+
+- Email: support@jobspipe.dev
+- Docs: https://docs.jobspipe.dev
+- Terms and privacy: https://jobspipe.dev/terms · https://jobspipe.dev/privacy
+
+Logo is the JobsPipe app icon (three white bars on the purple gradient tile) from https://jobspipe.dev/brand/app-icon/app-icon-gradient.svg.
+
+## License
+
+MIT
